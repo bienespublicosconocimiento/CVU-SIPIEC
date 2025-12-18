@@ -28,43 +28,63 @@ new #[Layout('layouts.guest')] class extends Component
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <img src="{{ asset('img/logos/flor.png') }}" alt="Flor" class="mb-5 sm:w-40 w-32 mx-auto">
+
     <form wire:submit="login">
         <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
+        <div class="relative">
+            {{-- <x-input-label for="email" :value="__('Correo electrónico')" /> --}}
+            <x-text-input wire:model="form.email" id="email" class="input-login"
+            type="email" name="email" placeholder="Usuario o Correo electrónico" />
+
+            {{-- icono user --}}
+            <img src="{{ asset('img/logos/user.png') }}" alt="Icono user" class="absolute w-6 top-4 left-3">
+            
+            <x-input-error :messages="$errors->first('form.email')" class="error-login" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <div class="mt-4 relative">
+            {{-- <x-input-label for="password" :value="__('Contraseña')" /> --}}
 
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
+            <x-text-input wire:model="form.password" id="password" class="input-login pr-14"
+                            placeholder="Contraseña"
                             type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+                            name="password" />
 
-            <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
+            {{-- icono password --}}
+            <img src="{{ asset('img/logos/password.png') }}" alt="Icono password" class="absolute w-6 top-4 left-3">
+            {{-- boton view password --}}
+            <button type="button" class="absolute w-6 top-4 right-5" aria-label="Ver contraseña" onclick="viewPassword()">
+                <img src="{{ asset('img/logos/eye.png') }}" alt="Ver contraseña" >
+            </button>
+            <x-input-error :messages="$errors->first('form.password')" class="error-login" />
         </div>
 
+        <script>
+            function viewPassword(){
+                const input = document.querySelector('#password') ;
+                input.type = input.type == 'password' ? 'text' : 'password';
+            }
+        </script>
+
         <!-- Remember Me -->
-        <div class="block mt-4">
+        {{-- <div class="block mt-4">
             <label for="remember" class="inline-flex items-center">
                 <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
                 <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
             </label>
-        </div>
+        </div> --}}
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
+        <div class="flex items-center justify-center mt-4">
+            {{-- @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('Forgot your password?') }}
                 </a>
-            @endif
+            @endif --}}
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
+            <x-primary-button class="ms-3 mt-5">
+                {{ __('Iniciar Sesión') }}
             </x-primary-button>
         </div>
     </form>

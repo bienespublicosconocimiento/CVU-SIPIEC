@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input-login{
+    @apply w-full rounded-3xl bg-transparent border pl-11 py-3 text-gris-100
+    border-gris-100 focus:border-gris-500 focus:ring-gris-500 focus:ring-0 focus:ring-offset-1 placeholder:text-gris-100
+}
+
+.error-login {
+    @apply text-gris-100 bg-gris-400 px-2 py-1 mt-2 rounded-md w-auto;
+}

@@ -44,29 +44,23 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <!-- Password -->
-        <div class="mt-4 relative">
+        <div x-data="{ showPassword: false }" class="mt-4 relative">
             {{-- <x-input-label for="password" :value="__('Contraseña')" /> --}}
 
             <x-text-input wire:model="form.password" id="password" class="input-login pr-14"
                             placeholder="Contraseña"
-                            type="password"
+                            x-bind:type="showPassword ? 'text' : 'password'"
                             name="password" />
 
             {{-- icono password --}}
             <img src="{{ asset('img/logos/password.png') }}" alt="Icono password" class="absolute w-6 top-4 left-3">
             {{-- boton view password --}}
-            <button type="button" class="absolute w-6 top-4 right-5" aria-label="Ver contraseña" onclick="viewPassword()">
+            <button type="button" @click="showPassword = !showPassword" class="absolute w-6 top-4 right-5" aria-label="Ver contraseña" >
                 <img src="{{ asset('img/logos/eye.png') }}" alt="Ver contraseña" >
             </button>
+
             <x-input-error :messages="$errors->first('form.password')" class="error-login" />
         </div>
-
-        <script>
-            function viewPassword(){
-                const input = document.querySelector('#password') ;
-                input.type = input.type == 'password' ? 'text' : 'password';
-            }
-        </script>
 
         <!-- Remember Me -->
         {{-- <div class="block mt-4">

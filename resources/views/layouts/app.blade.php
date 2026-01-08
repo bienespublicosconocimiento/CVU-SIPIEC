@@ -14,93 +14,39 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
+    <body>
         <div x-data="{ open: true }" class="min-h-screen bg-gray-100">
-            <div class="px-12 bg-verde-500 relative">
+            <div class="sm:px-12 sm:bg-verde-500 bg-white relative">
 
-                <div class="bg-white border-b border-gray-100 rounded-es-2xl rounded-ee-2xl">
-                    <div class="flex justify-between items-center h-16 max-w-7xl px-4 sm:px-6 lg:px-8">
-                        {{-- primera columna --}}
-                        <section class="flex gap-5">
-                            <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
-                                <a href="{{ route('dashboard') }}" wire:navigate>
-                                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                                    {{-- <img src="{{ asset('img/logos/uaem.png') }}" alt="" class="block h-12 w-auto fill-current text-gray-800"> --}}
-                                </a>
-                            </div>
-
-                            {{-- linea --}}
-                            <span class="bg-gris-200 w-[2px] my-2"></span>
-
-                            {{-- nombre sistema --}}
-                        </section>
-
-                        <div>
-                            hola
-                            <!-- Settings Dropdown -->
-                            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                                <x-dropdown align="right" width="48">
-                                    <x-slot name="trigger">
-                                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                            <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
-
-                                            <div class="ms-1">
-                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                </svg>
-                                            </div>
-                                        </button>
-                                    </x-slot>
-
-                                    <x-slot name="content">
-                                        <x-dropdown-link :href="route('profile')" wire:navigate>
-                                            {{ __('navigation.profile') }}
-                                        </x-dropdown-link>
-
-                                        <!-- Authentication -->
-                                        <button wire:click="logout" class="w-full text-start">
-                                            <x-dropdown-link>
-                                                {{ __('navigation.logout') }}
-                                            </x-dropdown-link>
-                                        </button>
-                                    </x-slot>
-                                </x-dropdown>
-                            </div>
-
-
-                            
-
-
-
-                        </div>
-                    </div>
-                </div>
-
+                {{-- navegacion --}}
                 <livewire:layout.navigation />
-                {{-- icono menu --}}
-                <button @click="open = ! open;" class="absolute top-5 left-3 z-10">
+
+                {{-- icono menu desktop --}}
+                <button 
+                    @click="open = ! open;"
+                    aria-label="Abrir menú"
+                    class="absolute top-5 left-3 z-10 sm:block hidden">
                     <img src="{{ asset('img/iconos/menu/menu.png') }}" alt="Boton menu" class="w-6">
                 </button>
             </div>
 
-            <!-- Page Heading -->
-            {{-- @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif --}}
-
             <div class="flex">
                 {{-- menu --}}
-                <section x-show="open" class="bg-gradient-to-br from-verde-500 to-verde-900 w-80 relative p-4">
-                    <h2>Menú</h2>
+                <section x-show="open"
+                        x-transition:enter="transition ease-out duration-300" 
+                        x-transition:enter-start="opacity-0 transform -translate-x-full" 
+                        x-transition:enter-end="opacity-100 transform translate-x-0" 
+                        x-transition:leave="transition ease-in duration-200" 
+                        x-transition:leave-start="opacity-100 transform translate-x-0" 
+                        x-transition:leave-end="opacity-0 transform -translate-x-full"
+                        class="bg-gradient-to-br from-verde-500 to-verde-900 w-80 relative p-4 sm:block hidden">
+                    
+                    {{-- links de navegacion --}}
+                    <h2 class="text-white font-semibold text-xl mb-4">Menú</h2>
 
-                    {{-- img fondo --}}
+                    {{-- fondo del menú --}}
                     <div class="absolute bottom-0">
-                        <img src="{{ asset('img/backgrounds/menu.png') }}" alt="Background flor">
+                        <img src="{{ asset('img/backgrounds/menu.png') }}" alt="Fondo del menú" class="w-full">
                         <div class="absolute bottom-0 right-0 w-4/5 h-6 bg-oro-400 rounded-ss-2xl"></div>
                     </div>
                 </section>
